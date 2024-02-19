@@ -10,9 +10,9 @@ The main focus of this project is the backend, so the frontend is quite basic. T
 
 Follow these steps to get the project up and running on your local machine:
 
-1. **Clone the repository**: Use `git clone <repository-url>` to clone the repository to your local machine.
+1. **Clone the repository**: Use `git clone https://github.com/md-naiem-islam-nahid/systeminfo` to clone the repository to your local machine.
 
-2. **Navigate to the project directory**: Use `cd <project-directory>` to navigate to the project directory.
+2. **Navigate to the project directory**: Use `cd systeminfo` to navigate to the project directory.
 
 3. **Install dependencies**: Run `npm install` to install all the necessary dependencies.
 
