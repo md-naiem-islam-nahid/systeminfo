@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Info</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 15px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>System Info</h1>
+    <h2>CPU Usage:</h2>
+    <div id="cpu"></div>
+    <h2>Total Memory (GB):</h2>
+    <p id="totalMemory"></p>
+    <h2>Free Memory (GB):</h2>
+    <p id="freeMemory"></p>
+    <h2>Process Memory Usage (GB):</h2>
+    <div id="processMemoryUsage"></div>
+
+    <script>
+      setInterval(function () {
+        fetch("http://localhost:4569/api/systeminfo") 
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("cpu").innerHTML = createTable(data.cpus);
+            document.getElementById("totalMemory").textContent = (data.totalMemory / 1073741824).toFixed(2);
+            document.getElementById("freeMemory").textContent = (data.freeMemory / 1073741824).toFixed(2);
+            data.processMemoryUsage.rss = (data.processMemoryUsage.rss / 1073741824).toFixed(2);
+            data.processMemoryUsage.heapTotal = (data.processMemoryUsage.heapTotal / 1073741824).toFixed(2);
+            data.processMemoryUsage.heapUsed = (data.processMemoryUsage.heapUsed / 1073741824).toFixed(2);
+            data.processMemoryUsage.external = (data.processMemoryUsage.external / 1073741824).toFixed(2);
+            document.getElementById("processMemoryUsage").innerHTML = createTable([data.processMemoryUsage]);
+          })
+          .catch((error) => console.error("Error:", error));
+      }, 1000); // 1000 milliseconds = 1 second
+
+      function createTable(data) {
+        let table = '<table>';
+        for (let key in data[0]) {
+          table += `<tr><th>${key}</th></tr>`;
+          data.forEach((item) => {
+            table += `<tr><td>${item[key]}</td></tr>`;
+          });
+        }
+        table += '</table>';
+        return table;
+      }
+    </script>
+  </body>
+</html>
